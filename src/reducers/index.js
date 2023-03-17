@@ -35,6 +35,13 @@ const reducer = (state = initialState, action) => {
                 filters: action.payload,
                 heroesLoadingStatus: 'idle'
             }
+        case 'HERO_DELETED':
+            const newArr = state.heroes.filter((el)=> el.id !== action.payload)
+            return {
+                ...state,
+                heroes: newArr,
+                heroesLoadingStatus: 'idle'
+            }
         default: return state
     }
 }

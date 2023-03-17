@@ -5,16 +5,6 @@ import {useHttp} from '../../hooks/http.hook';
 
 import { heroCreated, heroesFetchingError, filtersFetched } from '../../actions';
 
-// Задача для этого компонента:
-// Реализовать создание нового героя с введенными данными. Он должен попадать
-// в общее состояние и отображаться в списке + фильтроваться
-// Уникальный идентификатор персонажа можно сгенерировать через uiid
-// Усложненная задача:
-// Персонаж создается и в файле json при помощи метода POST
-// Дополнительно:
-// Элементы <option></option> желательно сформировать на базе
-// данных из фильтров
-
 const HeroesAddForm = () => {
 
     const [name, setName] = useState('');
@@ -52,6 +42,9 @@ const HeroesAddForm = () => {
     }
 
     const renderOptions = (filters) => {
+        if (filters.length === 0) {
+            return <option>фильтров нет</option>
+        }
         return filters.map(({value, name}) => {
             if (value === "all") return;
             return <option value={value} key={value}>{name}</option>
