@@ -37,3 +37,10 @@ export const heroDeleted = (id) => {
         payload: id
     }
 }
+
+export const heroesFiltered = (element) => {
+    return {
+        type: 'HEROES_FILTERED',
+        payload: element
+    }
+}

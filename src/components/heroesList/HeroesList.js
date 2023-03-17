@@ -1,5 +1,5 @@
 import {useHttp} from '../../hooks/http.hook';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { heroesFetching, heroesFetched, heroesFetchingError, heroDeleted } from '../../actions';
@@ -7,9 +7,11 @@ import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 
 const HeroesList = () => {
-    const {heroes, heroesLoadingStatus} = useSelector(state => state);
+    const {heroes, heroesLoadingStatus, heroesFilter} = useSelector(state => state);
     const dispatch = useDispatch();
     const {request} = useHttp();
+    
+    const [ heroesList, setHeroesList] = useState([]);
 
     useEffect(() => {
         dispatch(heroesFetching());
@@ -19,6 +21,16 @@ const HeroesList = () => {
 
         // eslint-disable-next-line
     }, []);
+
+    useEffect(() => {
+        setHeroesList(heroes);
+
+        if (heroesFilter !== "") {
+            setHeroesList(heroes.filter((value) => value.element === heroesFilter || heroesFilter === "all"))
+        }
+
+        // eslint-disable-next-line
+    }, [heroes, heroesFilter])
 
     if (heroesLoadingStatus === "loading") {
         return <Spinner/>;
@@ -42,7 +54,7 @@ const HeroesList = () => {
                 .catch(() => dispatch(heroesFetchingError()));       
     }
 
-    const elements = renderHeroesList(heroes);
+    const elements = renderHeroesList(heroesList);
     return (
         <ul>
             {elements}

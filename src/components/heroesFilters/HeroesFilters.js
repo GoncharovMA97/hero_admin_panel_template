@@ -1,5 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+import { heroesFiltered } from '../../actions';
 // Задача для этого компонента:
 // Фильтры должны формироваться на основании загруженных данных
 // Фильтры должны отображать только нужных героев при выборе
@@ -11,6 +13,13 @@ const HeroesFilters = () => {
     const [activeValue, setActiveValue] = useState('');
 
     const {filters} = useSelector(state => state);
+    const dispatch = useDispatch();
+
+    useEffect (() => {
+        dispatch(heroesFiltered(activeValue));
+
+        // eslint-disable-next-line
+    }, [activeValue])
 
     const buttonFilters = filters.map(({value, name, className})=>{
         const active = value === activeValue;
@@ -23,8 +32,6 @@ const HeroesFilters = () => {
                         {name}
                 </button>
     })
-
-    console.log(activeValue);
 
     return (
         <div className="card shadow-lg mt-4">
