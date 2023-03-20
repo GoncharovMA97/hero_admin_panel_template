@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { heroesFetching, heroesFetched, heroesFetchingError, heroDeleted } from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+
+import './heroesList.scss' ;
 
 const HeroesList = () => {
     const {heroes, heroesLoadingStatus, heroesFilter} = useSelector(state => state);
@@ -45,19 +48,28 @@ const HeroesList = () => {
 
     const renderHeroesList = (arr) => {
         if (arr.length === 0) {
-            return <h5 className="text-center mt-5">Героев пока нет</h5>
+            return (<CSSTransition
+                        timeout={0}
+                        className='hero'>
+                        <h5 className="text-center mt-5">Героев пока нет</h5>
+                    </CSSTransition>)
         }
 
         return arr.map(({id, ...props}) => {
-            return <HeroesListItem key={id} deleteHero={() => deleteHero(id)} {...props}/>
+            return (<CSSTransition
+                        key={id}
+                        timeout={500}
+                        className='hero'>
+                        <HeroesListItem deleteHero={() => deleteHero(id)} {...props}/>
+                    </CSSTransition>)
         })
     }
 
     const elements = renderHeroesList(heroesList);
     return (
-        <ul>
+        <TransitionGroup component="ul">
             {elements}
-        </ul>
+        </TransitionGroup>
     )
 }
 
