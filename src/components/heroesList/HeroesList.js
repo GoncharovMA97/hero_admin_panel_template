@@ -1,5 +1,5 @@
 import {useHttp} from '../../hooks/http.hook';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { heroesFetching, heroesFetched, heroesFetchingError, heroDeleted } from '../../actions';
@@ -22,12 +22,16 @@ const HeroesList = () => {
         // eslint-disable-next-line
     }, []);
 
+    const deleteHero = useCallback((id) => {
+        request(`http://localhost:3001/heroes/${id}`, 'DELETE')
+                .then(dispatch(heroDeleted(id)))
+                .catch(() => dispatch(heroesFetchingError()));       
+    }, [request])
+
     useEffect(() => {
         setHeroesList(heroes);
 
-        if (heroesFilter !== "") {
-            setHeroesList(heroes.filter((value) => value.element === heroesFilter || heroesFilter === "all"))
-        }
+        setHeroesList(heroes.filter((value) => value.element === heroesFilter || heroesFilter === "all"))
 
         // eslint-disable-next-line
     }, [heroes, heroesFilter])
@@ -37,6 +41,7 @@ const HeroesList = () => {
     } else if (heroesLoadingStatus === "error") {
         return <h5 className="text-center mt-5">Ошибка загрузки</h5>
     }
+    
 
     const renderHeroesList = (arr) => {
         if (arr.length === 0) {
@@ -46,12 +51,6 @@ const HeroesList = () => {
         return arr.map(({id, ...props}) => {
             return <HeroesListItem key={id} deleteHero={() => deleteHero(id)} {...props}/>
         })
-    }
-
-    const deleteHero = (id) => {
-        request(`http://localhost:3001/heroes/${id}`, 'DELETE')
-                .then(dispatch(heroDeleted(id)))
-                .catch(() => dispatch(heroesFetchingError()));       
     }
 
     const elements = renderHeroesList(heroesList);
