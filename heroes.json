@@ -7,28 +7,16 @@
       "element": "fire"
     },
     {
-      "id": "7de04bc5-728d-4502-988e-affff5aed234",
-      "name": "asdasd",
-      "description": "asd ba,snb dm",
-      "element": "water"
-    },
-    {
-      "id": "1133ff73-8694-4b03-aa7e-245411eb5e21",
-      "name": "asds",
-      "description": "sfshvhvsg",
-      "element": "wind"
-    },
-    {
-      "id": "214f543b-9525-455b-90d1-676c2ff08946",
-      "name": "sdcgsgdc",
-      "description": "sdgcsdcg",
-      "element": "wind"
-    },
-    {
       "id": "876d10c3-f764-4ace-8872-3c6a407e3f7f",
       "name": "jhvd fxvgbj",
       "description": "sdmvgz cmbnxc",
       "element": "earth"
+    },
+    {
+      "id": "443ed2b8-2f00-446d-8387-3b4941b00d70",
+      "name": "name",
+      "description": "descr",
+      "element": "water"
     }
   ],
   "filters": [

@@ -59,7 +59,7 @@ const HeroesList = () => {
             return (<CSSTransition
                         key={id}
                         timeout={500}
-                        className='hero'>
+                        classNames="hero">
                         <HeroesListItem deleteHero={() => deleteHero(id)} {...props}/>
                     </CSSTransition>)
         })
