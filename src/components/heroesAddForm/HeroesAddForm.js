@@ -37,14 +37,10 @@ const HeroesAddForm = () => {
                 .catch(() => dispatch(heroesFetchingError()));
             setName('');
             setDescription('');
-            setElement('');
         };
     }
 
     const renderOptions = (filters) => {
-        if (filters.length === 0) {
-            return <option>фильтров нет</option>
-        }
         return filters.map(({value, name}) => {
             if (value === "all") return;
             return <option value={value} key={value}>{name}</option>

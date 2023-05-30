@@ -32,7 +32,6 @@ const HeroesList = () => {
     }, [request])
 
     useEffect(() => {
-        setHeroesList(heroes);
 
         setHeroesList(heroes.filter((value) => value.element === heroesFilter || heroesFilter === "all"))
 
