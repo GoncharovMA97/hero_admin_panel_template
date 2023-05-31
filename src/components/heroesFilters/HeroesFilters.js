@@ -6,7 +6,7 @@ import { heroesFiltered } from '../../actions';
 const HeroesFilters = () => {
     const [activeValue, setActiveValue] = useState('all');
 
-    const {filters} = useSelector(state => state);
+    const {filters} = useSelector(state => state.filters);
     const dispatch = useDispatch();
 
     useEffect (() => {

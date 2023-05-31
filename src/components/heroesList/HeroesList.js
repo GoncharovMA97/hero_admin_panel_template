@@ -10,7 +10,8 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import './heroesList.scss' ;
 
 const HeroesList = () => {
-    const {heroes, heroesLoadingStatus, heroesFilter} = useSelector(state => state);
+    const {heroes, heroesLoadingStatus} = useSelector(state => state.heroes);
+    const {heroesFilter} = useSelector( state => state.filters)
     const dispatch = useDispatch();
     const {request} = useHttp();
     
@@ -32,8 +33,14 @@ const HeroesList = () => {
     }, [request])
 
     useEffect(() => {
-
-        setHeroesList(heroes.filter((value) => value.element === heroesFilter || heroesFilter === "all"))
+        
+        console.log('RENDER')
+        
+        if (heroesFilter === "all") {
+            setHeroesList(heroes)
+        } else {
+            setHeroesList(heroes.filter((value) => value.element === heroesFilter))
+        }
 
         // eslint-disable-next-line
     }, [heroes, heroesFilter])
@@ -44,7 +51,6 @@ const HeroesList = () => {
         return <h5 className="text-center mt-5">Ошибка загрузки</h5>
     }
     
-
     const renderHeroesList = (arr) => {
         if (arr.length === 0) {
             return (<CSSTransition
