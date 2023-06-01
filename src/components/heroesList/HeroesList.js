@@ -30,7 +30,7 @@ const HeroesList = () => {
         request(`http://localhost:3001/heroes/${id}`, 'DELETE')
                 .then(dispatch(heroDeleted(id)))
                 .catch(() => dispatch(heroesFetchingError()));       
-    }, [request])
+    }, [request, dispatch])
 
     useEffect(() => {
         

@@ -42,14 +42,14 @@ const HeroesAddForm = () => {
 
     const renderOptions = (filters) => {
         return filters.map(({value, name}) => {
-            if (value === "all") return;
-            return <option value={value} key={value}>{name}</option>
+            if (value === "all") return <option value="">Я владею элементом...</option>;
+            return <option value={value} key={value}>{name}</option>;
         })
     }
 
     return (
-        <form onSubmit={e => addCharacter(e)} className="border p-4 shadow-lg rounded">
-            <div className="mb-3">
+        <form onSubmit={e => addCharacter(e)} className="border p-3 shadow-lg rounded">
+            <div className="mb-2">
                 <label htmlFor="name" className="form-label fs-4">Имя нового героя</label>
                 <input 
                     required
@@ -59,10 +59,11 @@ const HeroesAddForm = () => {
                     onChange={e => setName(e.target.value)} 
                     className="form-control" 
                     id="name" 
-                    placeholder="Как меня зовут?"/>
+                    placeholder="Как меня зовут?"
+                    style={{"height": '40px'}}/>
             </div>
 
-            <div className="mb-3">
+            <div className="mb-2">
                 <label htmlFor="description" className="form-label fs-4">Описание</label>
                 <textarea
                     required
@@ -72,18 +73,18 @@ const HeroesAddForm = () => {
                     className="form-control" 
                     id="description" 
                     placeholder="Что я умею?"
-                    style={{"height": '130px'}}/>
+                    style={{"height": '80px'}}/>
             </div>
 
-            <div className="mb-3">
+            <div className="mb-2">
                 <label htmlFor="element" className="form-label">Выбрать элемент героя</label>
                 <select 
                     required
                     className="form-select" 
                     id="element" 
                     name="element" 
+                    style={{"height": '40px'}}
                     onChange={e => setElement(e.target.value)}>
-                    <option value="">Я владею элементом...</option>
                     {renderOptions(filters)}
                 </select>
             </div>
