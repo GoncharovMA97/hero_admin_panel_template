@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import {useHttp} from '../../hooks/http.hook';
 
-import { heroCreated, heroesFetchingError, filtersFetched } from '../../actions';
+import { heroCreated, filtersFetchingError, filtersFullFetch } from '../../actions';
 
 const HeroesAddForm = () => {
 
@@ -16,9 +16,7 @@ const HeroesAddForm = () => {
     const {request} = useHttp();
 
     useEffect(() => {
-        request("http://localhost:3001/filters")
-            .then(data => dispatch(filtersFetched(data)))
-            .catch(() => dispatch(heroesFetchingError()))
+        dispatch(filtersFullFetch(request));
 
         // eslint-disable-next-line
     }, []);
@@ -34,7 +32,7 @@ const HeroesAddForm = () => {
             };
             request("http://localhost:3001/heroes", 'POST', JSON.stringify(newChar))
                 .then(data => dispatch(heroCreated(data)))
-                .catch(() => dispatch(heroesFetchingError()));
+                .catch(() => dispatch(filtersFetchingError()));
             setName('');
             setDescription('');
         };
@@ -42,7 +40,7 @@ const HeroesAddForm = () => {
 
     const renderOptions = (filters) => {
         return filters.map(({value, name}) => {
-            if (value === "all") return <option value="">Я владею элементом...</option>;
+            if (value === "all") return <option value="" key={value}>Я владею элементом...</option>;
             return <option value={value} key={value}>{name}</option>;
         })
     }

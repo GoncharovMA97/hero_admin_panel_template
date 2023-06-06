@@ -1,21 +1,32 @@
 const initialState = {
+    filters: [],
     heroesFilter: 'all',
-    filters: []
+    filtersLoadingStatus: 'idle',
 }
 
 const filters = (state = initialState, action) => {
     switch (action.type) {
+        case 'FILTERS_FETCHING':
+            return {
+                ...state,
+                filtersLoadingStatus: 'loading'
+            }
         case 'FILTERS_FETCHED':
             return {
                 ...state,
                 filters: action.payload,
-                heroesLoadingStatus: 'idle'
+                filtersLoadingStatus: 'idle'
+            }
+        case 'FILTERS_FETCHING_ERROR':
+            return {
+                ...state,
+                filtersLoadingStatus: 'error'
             }
         case 'HEROES_FILTERED':
             return {
                 ...state,
                 heroesFilter: action.payload,
-                heroesLoadingStatus: 'idle'
+                filtersLoadingStatus: 'idle'
             }
         default: return state
     }

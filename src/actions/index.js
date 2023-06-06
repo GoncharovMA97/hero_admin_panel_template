@@ -1,3 +1,10 @@
+export const heroesFullFetch = (request) => (dispatch) => {
+    dispatch(heroesFetching());
+    request("http://localhost:3001/heroes")
+        .then(data => dispatch(heroesFetched(data)))
+        .catch(() => dispatch(heroesFetchingError()))
+}
+
 export const heroesFetching = () => {
     return {
         type: 'HEROES_FETCHING'
@@ -24,6 +31,26 @@ export const heroCreated = (hero) => {
     }
 }
 
+export const heroDeleted = (id) => {
+    return {
+        type: 'HERO_DELETED',
+        payload: id
+    }
+}
+
+export const filtersFullFetch = (request) => (dispatch) => {
+    dispatch(filtersFetching());
+    request("http://localhost:3001/filters")
+        .then(data => dispatch(filtersFetched(data)))
+        .catch(() => dispatch(filtersFetchingError()))
+}
+
+export const filtersFetching = () => {
+    return {
+        type: 'FILTERS_FETCHING'
+    }
+}
+
 export const filtersFetched = (filters) => {
     return {
         type: 'FILTERS_FETCHED',
@@ -31,10 +58,9 @@ export const filtersFetched = (filters) => {
     }
 }
 
-export const heroDeleted = (id) => {
+export const filtersFetchingError = () => {
     return {
-        type: 'HERO_DELETED',
-        payload: id
+        type: 'FILTERS_FETCHING_ERROR'
     }
 }
 
