@@ -3,7 +3,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import {useHttp} from '../../hooks/http.hook';
 
-import { heroCreated, filtersFetchingError, filtersFullFetch } from '../../actions';
+import { filtersFullFetch } from '../../actions';
+import { filtersFetchingError } from '../heroesFilters/filtersSlice';
+import { heroCreated } from '../heroesList/heroesSlice';
 
 const HeroesAddForm = () => {
 

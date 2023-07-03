@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 
-import { heroesFiltered } from '../../actions';
+import { heroesFiltered } from './filtersSlice';
 
 const HeroesFilters = () => {
     const [activeValue, setActiveValue] = useState('all');
