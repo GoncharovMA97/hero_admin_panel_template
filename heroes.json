@@ -7,12 +7,6 @@
       "element": "fire"
     },
     {
-      "id": "443ed2b8-2f00-446d-8387-3b4941b00d70",
-      "name": "name",
-      "description": "descr",
-      "element": "water"
-    },
-    {
       "id": "c6c750b9-7b51-4056-8ce2-2923b7c8d01e",
       "name": " cgnvb",
       "description": "zxcdgvb",
@@ -37,16 +31,22 @@
       "element": "wind"
     },
     {
-      "id": "52556c6c-30ef-4732-8b08-e228446835c7",
-      "name": "ersvgsegf",
-      "description": "erftsetryf",
-      "element": "fire"
-    },
-    {
       "id": "35d0a022-e8bc-4fca-a94e-3d3d15cf643f",
       "name": "sfhdrytgh",
       "description": "stgdhjnfygj",
       "element": "fire"
+    },
+    {
+      "id": "2a28ff8a-d697-493e-a1fa-8a4a0bfbf7ad",
+      "name": "fdbghb",
+      "description": "hdghbvrfbgvh",
+      "element": "water"
+    },
+    {
+      "id": "a1881aaf-921a-4cde-9144-d460d47d464f",
+      "name": "zdcfgv",
+      "description": "zdfhvdgv",
+      "element": "water"
     }
   ],
   "filters": [

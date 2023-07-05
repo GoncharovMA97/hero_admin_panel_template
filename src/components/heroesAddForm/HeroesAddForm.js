@@ -3,8 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import {useHttp} from '../../hooks/http.hook';
 
-import { filtersFullFetch } from '../../actions';
-import { filtersFetchingError } from '../heroesFilters/filtersSlice';
+import { filtersFetchingError, filtersFetch } from '../heroesFilters/filtersSlice';
 import { heroCreated } from '../heroesList/heroesSlice';
 
 const HeroesAddForm = () => {
@@ -18,7 +17,7 @@ const HeroesAddForm = () => {
     const {request} = useHttp();
 
     useEffect(() => {
-        dispatch(filtersFullFetch(request));
+        dispatch(filtersFetch());
 
         // eslint-disable-next-line
     }, []);

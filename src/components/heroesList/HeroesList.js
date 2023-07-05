@@ -2,8 +2,7 @@ import {useHttp} from '../../hooks/http.hook';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { heroesFullFetch } from '../../actions';
-import { heroesFetchingError, heroDeleted} from './heroesSlice';
+import { heroesFetchingError, heroDeleted, heroesFetch} from './heroesSlice';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
@@ -16,10 +15,10 @@ const HeroesList = () => {
     const dispatch = useDispatch();
     const {request} = useHttp();
     
-    const [ heroesList, setHeroesList] = useState([]);
+    const [heroesList, setHeroesList] = useState([]);
 
     useEffect(() => {
-        dispatch(heroesFullFetch(request));
+        dispatch(heroesFetch());
 
         // eslint-disable-next-line
     }, []);
