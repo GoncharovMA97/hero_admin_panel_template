@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import {useHttp} from '../../hooks/http.hook';
 
-import { filtersFetchingError, filtersFetch } from '../heroesFilters/filtersSlice';
+import { filtersFetchingError, selectAll } from '../heroesFilters/filtersSlice';
 import { heroCreated } from '../heroesList/heroesSlice';
+import store from '../../store';
 
 const HeroesAddForm = () => {
 
@@ -12,15 +13,10 @@ const HeroesAddForm = () => {
     const [description, setDescription] = useState('');
     const [element, setElement] = useState('');
 
-    const {filters} = useSelector(state => state.filters);
+    const {filtersLoadingStatus} = useSelector(state => state.filters);
+    const filters = selectAll(store.getState());
     const dispatch = useDispatch();
     const {request} = useHttp();
-
-    useEffect(() => {
-        dispatch(filtersFetch());
-
-        // eslint-disable-next-line
-    }, []);
 
     const addCharacter = (e) => {
         e.preventDefault();
@@ -39,11 +35,21 @@ const HeroesAddForm = () => {
         };
     }
 
-    const renderOptions = (filters) => {
-        return filters.map(({value, name}) => {
-            if (value === "all") return <option value="" key={value}>Я владею элементом...</option>;
-            return <option value={value} key={value}>{name}</option>;
-        })
+    const renderOptions = (filters, status) => {
+        if (status === "loading") {
+            return <option>Загрузка элементов</option>
+        } else if (status === "error") {
+            return <option>Ошибка загрузки</option>
+        }
+        
+        if (filters && filters.length > 0 ) {
+            return filters.map(({value, name}) => {
+                if (value === "all") return <option value="" key={value}>Я владею элементом...</option>;
+                return <option value={value} key={value}>{name}</option>;
+            })
+        } else {
+            return <option>Ошибка загрузки</option>
+        }
     }
 
     return (
@@ -84,7 +90,7 @@ const HeroesAddForm = () => {
                     name="element" 
                     style={{"height": '40px'}}
                     onChange={e => setElement(e.target.value)}>
-                    {renderOptions(filters)}
+                    {renderOptions(filters, filtersLoadingStatus)}
                 </select>
             </div>
 

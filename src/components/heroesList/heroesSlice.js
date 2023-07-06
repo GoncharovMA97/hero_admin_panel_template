@@ -1,10 +1,11 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createEntityAdapter, createSelector } from "@reduxjs/toolkit";
 import {useHttp} from '../../hooks/http.hook';
 
-const initialState = {
-    heroes: [],
-    heroesLoadingStatus: 'idle',
-}
+const heroesAdapter = createEntityAdapter();
+
+const initialState = heroesAdapter.getInitialState({
+    heroesLoadingStatus: 'idle'
+});
 
 export const heroesFetch = createAsyncThunk(
     'heroes/heroesFetch',
@@ -20,28 +21,36 @@ const heroesSlice = createSlice({
     reducers: {
         heroesFetchingError: (state) => {state.heroesLoadingStatus = 'error'},
         heroCreated: (state, action) => {
-            state.heroes.push(action.payload);
+            heroesAdapter.addOne(state, action.payload);
             state.heroesLoadingStatus = 'idle';
         },
         heroDeleted: (state, action) => {
-            const newArr = state.heroes.filter((el)=> el.id !== action.payload)
-            return {
-                ...state,
-                heroes: newArr,
-                heroesLoadingStatus: 'idle'
-            }
+            heroesAdapter.removeOne(state, action.payload);
         }
     },
     extraReducers: (builder) => {
         builder
             .addCase(heroesFetch.pending, (state) => {state.heroesLoadingStatus = 'loading'})
             .addCase(heroesFetch.fulfilled, (state, action) => {
-                state.heroes = action.payload;
+                heroesAdapter.setAll(state, action.payload);
                 state.heroesLoadingStatus = 'idle';
             })
             .addCase(heroesFetch.rejected, (state) => {state.heroesLoadingStatus = 'error'})
     }
 });
+const { selectAll } = heroesAdapter.getSelectors((state) => state.heroes);
+
+export const filteredHeroesSelector = createSelector(
+    (state) => state.filters.activeFilter,
+    selectAll,
+    (filter, heroes) => {
+        if (filter === 'all') {
+            return heroes;
+        } else {
+            return heroes.filter(item => item.element === filter);
+        }
+    }
+)
 
 const { reducer, actions } = heroesSlice;
 

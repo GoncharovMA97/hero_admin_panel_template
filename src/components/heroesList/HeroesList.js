@@ -1,8 +1,8 @@
 import {useHttp} from '../../hooks/http.hook';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { heroesFetchingError, heroDeleted, heroesFetch} from './heroesSlice';
+import { heroesFetchingError, heroDeleted, heroesFetch, filteredHeroesSelector} from './heroesSlice';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
@@ -10,12 +10,12 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import './heroesList.scss' ;
 
 const HeroesList = () => {
-    const {heroes, heroesLoadingStatus} = useSelector(state => state.heroes);
-    const {heroesFilter} = useSelector( state => state.filters)
+    const filteredHeroes = useSelector(filteredHeroesSelector);
+	const heroesLoadingStatus = useSelector(
+		(state) => state.heroes.heroesLoadingStatus
+	);
     const dispatch = useDispatch();
     const {request} = useHttp();
-    
-    const [heroesList, setHeroesList] = useState([]);
 
     useEffect(() => {
         dispatch(heroesFetch());
@@ -28,16 +28,6 @@ const HeroesList = () => {
                 .then(dispatch(heroDeleted(id)))
                 .catch(() => dispatch(heroesFetchingError()));       
     }, [request, dispatch])
-
-    useEffect(() => {
-        if (heroesFilter === "all") {
-            setHeroesList(heroes)
-        } else {
-            setHeroesList(heroes.filter((value) => value.element === heroesFilter))
-        }
-
-        // eslint-disable-next-line
-    }, [heroes, heroesFilter])
 
     if (heroesLoadingStatus === "loading") {
         return <Spinner/>;
@@ -64,7 +54,7 @@ const HeroesList = () => {
         })
     }
 
-    const elements = renderHeroesList(heroesList);
+    const elements = renderHeroesList(filteredHeroes);
     return (
         <TransitionGroup component="ul">
             {elements}
